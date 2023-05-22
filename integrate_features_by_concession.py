@@ -1,3 +1,6 @@
+# This file populates runs all the processing needed to populate features_by_logging_concession.csv
+# does the same as the first 24 cells of features.py but is in script form
+
 # imports
 import numpy as np
 import matplotlib as mpl
@@ -80,7 +83,7 @@ fields_dict = {key:[] for key in fields}
 num_concessions = len(concessions)
 
 
-# plain avg
+# take avg
 def average_by_cell(key):
     """
     in-place modification/population of fields_dict
@@ -99,7 +102,7 @@ def average_by_cell(key):
         # do std dev
         # fields_dict[key+"_std"].append(np.std([grid.iloc[cell][key] for cell in cells_contained]))
 
-# area based avg
+# take weighted average based on area
 def average_by_cell_areas(key):
     """
     in-place modification/population of fields_dict
@@ -158,7 +161,7 @@ def sum_by_cell_areas(key):
 
             fields_dict[key].append(total)
 
-# populate fields
+# populate all the covariate fields
 fields_dict['id'] = [i for i in range(1, num_concessions+1)]
 fields_dict['area'] = [concessions['area_ha'][i] for i in range(num_concessions)]
 fields_dict['year'] = [concessions['year'][i] for i in range(num_concessions)]
@@ -179,7 +182,7 @@ for field in fields[11:21]:
     sum_by_cell_areas(field)
 
 
-# do proportions
+# do proportions based deforestation
 print("Populating proportions for all land features per concession...")
 
 for field in fields[11:21]:
@@ -239,19 +242,17 @@ features_df.to_csv("outputs/features_by_logging_concession_new.csv", index=False
     
 #TODO: still need to copy over the following fields
 # make this in the post-initial processing part in a function that can vary the threshold
-#      over 50th percentile stuff (deforestation by year, count, ), over 50p normed?
-# degree
-# fix the stuff that references indices of the fields dict to referencing actual names bc this file will have changed the order of the keys
+#      over 50th percentile stuff (deforestation by year, count, ), over 50p normed
+# need to fix the stuff that references indices of the fields dict to referencing actual names bc this file will have changed the order of the keys
 
-'''
-Features processed:
-Index(['id', 'area', 'year', 'slope', 'elev', 'distroad', 'distcapital',
-       'peatdepth', 'biomasscarbonruesch', 'soilcarbon', 'biomasscarbonbaccini', 
-       'defor2000', 'defor2001', 'defor2002', 'defor2003', 'defor2004', 
-       'defor2005', 'defor2006', 'defor2007', 'defor2008', 'defor2009', 
-       'defor2000prop', 'defor2001prop', 'defor2002prop', 'defor2003prop', 'defor2004prop', 
-       'defor2005prop', 'defor2006prop', 'defor2007prop', 'defor2008prop', 'defor2009prop',
-       'num_cells', 'defor_cumul', 'defor_cumul_avg', 'defor_cumul_prop', 'defor_cumul_prop_avg', 
-       'years_in_effect', 'degree],
-      dtype='object')
-'''
+
+# Features accounted for:
+# Index(['id', 'area', 'year', 'slope', 'elev', 'distroad', 'distcapital',
+#        'peatdepth', 'biomasscarbonruesch', 'soilcarbon', 'biomasscarbonbaccini', 
+#        'defor2000', 'defor2001', 'defor2002', 'defor2003', 'defor2004', 
+#        'defor2005', 'defor2006', 'defor2007', 'defor2008', 'defor2009', 
+#        'defor2000prop', 'defor2001prop', 'defor2002prop', 'defor2003prop', 'defor2004prop', 
+#        'defor2005prop', 'defor2006prop', 'defor2007prop', 'defor2008prop', 'defor2009prop',
+#        'num_cells', 'defor_cumul', 'defor_cumul_avg', 'defor_cumul_prop', 'defor_cumul_prop_avg', 
+#        'years_in_effect', 'degree],
+#       dtype='object')

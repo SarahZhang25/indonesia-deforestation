@@ -1,0 +1,11 @@
+/mock/
+/experimental_measures.ipynb
+/features.py
+/scratch.ipynb
+/visualize_concessions*
+/outputs/tmp
+/outputs/features_by_logging_concession - Copy.csv
+/outputs/features_by_logging_concession_archive.csv
+/outputs/features_by_logging_concession_new.csv
+/outputs/features_by_logging_concession_revised.csv
+/outputs/oil_palm_concession_adjacencies_no_buffer.csv
